@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Periodic Table Guide — Created by G E L O</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            alkali: '#f43f5e',
+            alkaline: '#ec4899',
+            transition: '#eab308',
+            posttrans: '#3b82f6',
+            metalloid: '#10b981',
+            nonmetal: '#22c55e',
+            noble: '#a855f7',
+            lanthanide: '#f97316',
+            actinide: '#ef4444',
+            darkbg: '#0f172a',
+            cardbg: '#1e293b'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0f19;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .element-card {
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+    .element-card:hover {
+      transform: translateY(-3px) scale(1.05);
+      z-index: 20;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+    .badge-gelo {
+      background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+    }
+    .ptable-grid {
+      display: grid;
+      grid-template-columns: repeat(18, minmax(50px, 1fr));
+      gap: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+  <!-- TOP HEADER / BRANDING BANNER -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl badge-gelo flex items-center justify-center text-white font-extrabold text-xl tracking-wider shadow-lg">
+          G
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-black tracking-tight text-white flex items-center gap-2">
+            Complete Periodic Table Guide
+            <span class="hidden sm:inline-block text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-semibold">Pro Edition</span>
+          </h1>
+          <p class="text-xs text-slate-400">Interactive Master Study & Reference Tool</p>
+        </div>
+      </div>
+
+      <!-- Author Mark Badge -->
+      <div class="flex items-center gap-3">
+        <div class="px-3 py-1.5 rounded-xl border border-purple-500/30 bg-purple-950/40 flex items-center gap-2 shadow-inner">
+          <i class="fa-solid fa-certificate text-purple-400 text-xs"></i>
+          <span class="text-xs text-slate-300 font-medium">Created by</span>
+          <span class="text-xs font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400 tracking-wider uppercase">G E L O</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="bg-slate-900/50 border-b border-slate-800/80 sticky top-16 z-30 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 overflow-x-auto custom-scrollbar py-2">
+      <button onclick="switchTab('table')" id="tab-table" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 whitespace-nowrap bg-indigo-600 text-white shadow-md">
+        <i class="fa-solid fa-table-cells"></i> Interactive Table
+      </button>
+      <button onclick="switchTab('trends')" id="tab-trends" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i class="fa-solid fa-chart-line"></i> Periodic Trends
+      </button>
+      <button onclick="switchTab('directory')" id="tab-directory" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i class="fa-solid fa-list-check"></i> 118 Element Directory
+      </button>
+      <button onclick="switchTab('guides')" id="tab-guides" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i class="fa-solid fa-book-open"></i> Mastery Guides
+      </button>
+      <button onclick="switchTab('quiz')" id="tab-quiz" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i class="fa-solid fa-brain"></i> Practice Quiz
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-2 sm:px-4 lg:px-8 py-6">
+
+    <!-- TAB 1: INTERACTIVE PERIODIC TABLE GRID -->
+    <section id="view-table" class="tab-view space-y-6">
+      
+      <!-- Controls Header: Filters, Blocks, Search -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-4">
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+            <input type="text" id="ptable-search" oninput="filterElements()" placeholder="Search by name, symbol, atomic number (e.g., Gold, Au, 79)..." 
+              class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+          </div>
+
+          <div class="flex flex-wrap gap-2 items-center">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mr-1">Filter:</span>
+            <button onclick="setCategoryFilter('all')" class="cat-filter-btn px-3 py-1.5 text-xs rounded-lg font-medium border border-indigo-500/50 bg-indigo-500/20 text-indigo-300">All</button>
+            <button onclick="setCategoryFilter('Alkali Metal')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-rose-500/30 bg-rose-950/30 text-rose-300 hover:bg-rose-900/50">Alkali</button>
+            <button onclick="setCategoryFilter('Alkaline Earth')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-pink-500/30 bg-pink-950/30 text-pink-300 hover:bg-pink-900/50">Alkaline Earth</button>
+            <button onclick="setCategoryFilter('Transition Metal')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-amber-500/30 bg-amber-950/30 text-amber-300 hover:bg-amber-900/50">Transition</button>
+            <button onclick="setCategoryFilter('Post-Transition')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-blue-500/30 bg-blue-950/30 text-blue-300 hover:bg-blue-900/50">Post-Trans</button>
+            <button onclick="setCategoryFilter('Metalloid')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-emerald-500/30 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/50">Metalloid</button>
+            <button onclick="setCategoryFilter('Reactive Nonmetal')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-green-500/30 bg-green-950/30 text-green-300 hover:bg-green-900/50">Nonmetal</button>
+            <button onclick="setCategoryFilter('Noble Gas')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-purple-500/30 bg-purple-950/30 text-purple-300 hover:bg-purple-900/50">Noble Gas</button>
+            <button onclick="setCategoryFilter('Lanthanide')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-orange-500/30 bg-orange-950/30 text-orange-300 hover:bg-orange-900/50">Lanthanide</button>
+            <button onclick="setCategoryFilter('Actinide')" class="cat-filter-btn px-2.5 py-1.5 text-xs rounded-lg font-medium border border-red-500/30 bg-red-950/30 text-red-300 hover:bg-red-900/50">Actinide</button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 pt-2 border-t border-slate-800 text-xs">
+          <span class="text-slate-400 font-medium">Electron Block:</span>
+          <button onclick="setBlockFilter('all')" class="block-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">All Blocks</button>
+          <button onclick="setBlockFilter('s')" class="block-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">s-block</button>
+          <button onclick="setBlockFilter('p')" class="block-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">p-block</button>
+          <button onclick="setBlockFilter('d')" class="block-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">d-block</button>
+          <button onclick="setBlockFilter('f')" class="block-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">f-block</button>
+        </div>
+      </div>
+
+      <!-- MAIN GRID CONTAINER -->
+      <div class="overflow-x-auto pb-4 custom-scrollbar">
+        <div class="min-w-[1000px] space-y-4">
+          <div class="grid grid-cols-18 text-center text-xs text-slate-400 font-bold px-1" style="grid-template-columns: repeat(18, minmax(50px, 1fr));">
+            <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div>
+          </div>
+
+          <div id="main-periodic-grid" class="ptable-grid"></div>
+
+          <div class="pt-6 pb-2 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80">
+            <span class="font-bold tracking-wider text-slate-400 uppercase">f-Block Elements (Lanthanides & Actinides Series)</span>
+            <span>* Lanthanides (57-71) &nbsp;&nbsp;|&nbsp;&nbsp; ** Actinides (89-103)</span>
+          </div>
+
+          <div id="lanthanide-grid" class="ptable-grid"></div>
+          <div id="actinide-grid" class="ptable-grid"></div>
+        </div>
+      </div>
+
+      <!-- COLOR LEGEND BAR -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Element Family Classifications</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-2 text-xs">
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-rose-950/40 border border-rose-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-rose-500"></div>
+            <span class="text-rose-200 font-medium truncate">Alkali Metal</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-pink-950/40 border border-pink-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-pink-500"></div>
+            <span class="text-pink-200 font-medium truncate">Alkaline Earth</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-amber-950/40 border border-amber-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-amber-500"></div>
+            <span class="text-amber-200 font-medium truncate">Transition Metal</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-blue-950/40 border border-blue-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-blue-500"></div>
+            <span class="text-blue-200 font-medium truncate">Post-Transition</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-emerald-500"></div>
+            <span class="text-emerald-200 font-medium truncate">Metalloid</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-green-950/40 border border-green-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-green-500"></div>
+            <span class="text-green-200 font-medium truncate">Reactive Nonmetal</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-purple-950/40 border border-purple-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-purple-500"></div>
+            <span class="text-purple-200 font-medium truncate">Noble Gas</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-orange-950/40 border border-orange-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-orange-500"></div>
+            <span class="text-orange-200 font-medium truncate">Lanthanide</span>
+          </div>
+          <div class="flex items-center gap-2 p-1.5 rounded-lg bg-red-950/40 border border-red-500/30">
+            <div class="w-3.5 h-3.5 rounded bg-red-500"></div>
+            <span class="text-red-200 font-medium truncate">Actinide</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: PERIODIC TRENDS VISUALIZER & HEATMAP -->
+    <section id="view-trends" class="tab-view hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+        <div>
+          <h2 class="text-xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-fire text-amber-400"></i> Interactive Periodic Trends Visualizer
+          </h2>
+          <p class="text-sm text-slate-400 mt-1">Select a property to view intensity heatmaps across periods and groups.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <button onclick="setTrendMode('radius')" id="btn-trend-radius" class="trend-select-btn p-3 rounded-xl border border-indigo-500/50 bg-indigo-500/20 text-indigo-200 text-left font-semibold text-xs sm:text-sm hover:border-indigo-400 transition">
+            <i class="fa-solid fa-ruler-horizontal text-indigo-400 mb-1 block text-base"></i> Atomic Radius
+          </button>
+          <button onclick="setTrendMode('electronegativity')" id="btn-trend-electronegativity" class="trend-select-btn p-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-left font-semibold text-xs sm:text-sm hover:border-slate-700 transition">
+            <i class="fa-solid fa-magnet text-pink-400 mb-1 block text-base"></i> Electronegativity
+          </button>
+          <button onclick="setTrendMode('ionization')" id="btn-trend-ionization" class="trend-select-btn p-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-left font-semibold text-xs sm:text-sm hover:border-slate-700 transition">
+            <i class="fa-solid fa-bolt text-yellow-400 mb-1 block text-base"></i> Ionization Energy
+          </button>
+          <button onclick="setTrendMode('metallic')" id="btn-trend-metallic" class="trend-select-btn p-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-left font-semibold text-xs sm:text-sm hover:border-slate-700 transition">
+            <i class="fa-solid fa-gem text-cyan-400 mb-1 block text-base"></i> Metallic Character
+          </button>
+        </div>
+
+        <div id="trend-explanation" class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-300 text-sm space-y-2"></div>
+
+        <div class="overflow-x-auto pb-4 custom-scrollbar">
+          <div class="min-w-[1000px] space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-400 mb-2">
+              <span>Heatmap Mode Activated: Colors represent relative intensity</span>
+              <div class="flex items-center gap-2">
+                <span>Low</span>
+                <div class="w-24 h-3 rounded bg-gradient-to-r from-slate-800 via-blue-600 to-rose-500"></div>
+                <span>High</span>
+              </div>
+            </div>
+            <div id="trend-periodic-grid" class="ptable-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: COMPLETE ELEMENT DIRECTORY TABLE -->
+    <section id="view-directory" class="tab-view hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-table-list text-indigo-400"></i> Complete 118 Element Directory
+            </h2>
+            <p class="text-xs text-slate-400">Exhaustive data catalog directly referencing the guide</p>
+          </div>
+          <input type="text" id="directory-search" oninput="renderDirectoryTable()" placeholder="Filter directory..." 
+            class="px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 w-full sm:w-64">
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar border border-slate-800 rounded-xl">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950 text-xs font-bold uppercase text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-3">#</th>
+                <th class="p-3">Symbol</th>
+                <th class="p-3">Name</th>
+                <th class="p-3">Category</th>
+                <th class="p-3">Atomic Mass (amu)</th>
+                <th class="p-3">Valency</th>
+                <th class="p-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="directory-table-body" class="divide-y divide-slate-800/60 bg-slate-900/40"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: MASTERY GUIDES -->
+    <section id="view-guides" class="tab-view hidden space-y-8">
+      <!-- MODULE 1 -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Mastery Guide — Module 1</span>
+          <h2 class="text-2xl font-black text-white mt-1">How to Read & Use the Periodic Table</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-cube text-cyan-400"></i> Anatomy of an Element Cell
+            </h3>
+            <div class="mx-auto w-44 h-44 border-2 border-indigo-500/50 bg-indigo-950/30 rounded-2xl p-3 flex flex-col justify-between text-center relative shadow-lg">
+              <span class="text-xs font-mono font-bold text-indigo-300">11 (Protons)</span>
+              <div>
+                <span class="text-4xl font-extrabold text-white tracking-tight">Na</span>
+                <span class="block text-xs text-indigo-200 mt-0.5">Sodium</span>
+              </div>
+              <span class="text-xs font-mono text-indigo-300">22.990 (Atomic Mass)</span>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 leading-relaxed">
+              <li><strong class="text-indigo-400">Atomic Number:</strong> Protons in nucleus. Defines element identity.</li>
+              <li><strong class="text-indigo-400">Chemical Symbol:</strong> Standard 1-2 letter international notation.</li>
+              <li><strong class="text-indigo-400">Element Name:</strong> Official IUPAC name.</li>
+              <li><strong class="text-indigo-400">Atomic Mass:</strong> Weighted average of protons + neutrons in amu.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-arrows-up-down-left-right text-purple-400"></i> Periods vs. Groups & Valency
+            </h3>
+            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+              <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-purple-300 mb-1">Periods (Rows 1–7)</h4>
+                <p>Share the same number of electron energy shells. Moving left to right adds 1 proton & 1 electron per element.</p>
+              </div>
+              <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-purple-300 mb-1">Groups (Columns 1–18)</h4>
+                <p>Possess identical valence electron counts, producing similar chemical reactivity!</p>
+              </div>
+              <div class="p-3 bg-indigo-950/30 border border-indigo-500/30 rounded-lg">
+                <h4 class="font-bold text-indigo-300 mb-1"><i class="fa-solid fa-scale-balanced"></i> Valency Guidelines</h4>
+                <ul class="space-y-1 text-slate-300">
+                  <li><strong>Group 1:</strong> Valency of 1+ ($Na^+$)</li>
+                  <li><strong>Group 2:</strong> Valency of 2+ ($Ca^{2+}$)</li>
+                  <li><strong>Group 17:</strong> Valency of 1- ($Cl^-$)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Mastery Guide — Module 2</span>
+          <h2 class="text-2xl font-black text-white mt-1">Periodic Trends & Core Rules</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl space-y-2">
+            <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2"><i class="fa-solid fa-circle-dot"></i> Atomic Radius</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">Increases DOWN a group (adding shell layers); Decreases LEFT to RIGHT across a period (stronger nuclear pull).</p>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl space-y-2">
+            <h3 class="font-bold text-pink-400 text-sm flex items-center gap-2"><i class="fa-solid fa-magnet"></i> Electronegativity</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">Increases UP and RIGHT. <strong>Fluorine (F)</strong> is the most electronegative element.</p>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl space-y-2">
+            <h3 class="font-bold text-yellow-400 text-sm flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Ionization Energy</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">Energy required to strip an electron. Increases UP and RIGHT. <strong>Helium (He)</strong> holds the highest value.</p>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 border border-emerald-500/30 rounded-xl p-5 space-y-3">
+          <h3 class="font-bold text-emerald-300 text-sm flex items-center gap-2"><i class="fa-solid fa-stairs"></i> The Metalloid Staircase Line</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            The diagonal line (B, Si, Ge, As, Sb, Te, At) separates metals on the left from nonmetals on the right. Metalloids display semiconductor properties vital for modern microchips.
+          </p>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <span class="text-xs font-bold text-pink-400 uppercase tracking-widest">Mastery Guide — Module 3</span>
+          <h2 class="text-2xl font-black text-white mt-1">Memorization Strategies & Group Mnemonics</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2"><i class="fa-solid fa-comment-dots text-pink-400"></i> Group Mnemonics</h3>
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-rose-400">Group 1 Alkali (Li, Na, K, Rb, Cs, Fr)</span>
+              <p class="text-white font-semibold">"Little Nasty Kids Rub Cat's Fur."</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-pink-400">Group 2 Alkaline Earth (Be, Mg, Ca, Sr, Ba, Ra)</span>
+              <p class="text-white font-semibold">"Berry Magnificent Can Stream Ba... Ra..."</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-green-400">Group 17 Halogens (F, Cl, Br, I, At)</span>
+              <p class="text-white font-semibold">"First Class Bryan Is Attractive."</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-purple-400">Group 18 Noble Gases (He, Ne, Ar, Kr, Xe, Rn)</span>
+              <p class="text-white font-semibold">"Her New Army Cracks Xenon Runs."</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2"><i class="fa-solid fa-music text-indigo-400"></i> Elements 1 to 20 Rhythm Phrase</h3>
+            <div class="bg-indigo-950/40 border border-indigo-500/30 p-4 rounded-xl space-y-2">
+              <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs font-mono text-amber-300">
+                H - He - Li - Be - B - C - N - O - F - Ne - Na - Mg - Al - Si - P - S - Cl - Ar - K - Ca
+              </div>
+              <p class="text-xs text-slate-300 italic">
+                "Hi Helium, Listen To Berry's Brown Car Needs Oxygen For New Nasty Magnesium's Silly Phosphorus Sulfur Chlorine Argon Potassium Calcium."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: PRACTICE QUIZ -->
+    <section id="view-quiz" class="tab-view hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl max-w-2xl mx-auto space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-xl font-black text-white flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Interactive Practice Quiz
+            </h2>
+            <p class="text-xs text-slate-400">Test your knowledge on symbols, categories, and trends</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-slate-400">Score</span>
+            <div id="quiz-score" class="text-xl font-black text-indigo-400">0 / 0</div>
+          </div>
+        </div>
+
+        <div id="quiz-card" class="bg-slate-950 border border-slate-800 rounded-xl p-6 space-y-6">
+          <p id="quiz-question" class="text-base font-semibold text-white"></p>
+          <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          <button onclick="nextQuizQuestion()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm transition">
+            Next Question
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ELEMENT DETAILS MODAL -->
+  <div id="element-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-6 relative shadow-2xl">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC AND DATA ENGINE -->
+  <script>
+    const elementsData = [
+      { num: 1, sym: "H", name: "Hydrogen", cat: "Reactive Nonmetal", mass: 1.008, valency: "1", row: 1, col: 1, block: "s", radius: 53, eneg: 2.20, ion: 1312, met: 10 },
+      { num: 2, sym: "He", name: "Helium", cat: "Noble Gas", mass: 4.0026, valency: "0", row: 1, col: 18, block: "s", radius: 31, eneg: 0, ion: 2372, met: 0 },
+      { num: 3, sym: "Li", name: "Lithium", cat: "Alkali Metal", mass: 6.94, valency: "1+", row: 2, col: 1, block: "s", radius: 167, eneg: 0.98, ion: 520, met: 90 },
+      { num: 4, sym: "Be", name: "Beryllium", cat: "Alkaline Earth", mass: 9.0122, valency: "2+", row: 2, col: 2, block: "s", radius: 112, eneg: 1.57, ion: 899, met: 75 },
+      { num: 5, sym: "B", name: "Boron", cat: "Metalloid", mass: 10.81, valency: "3+", row: 2, col: 13, block: "p", radius: 87, eneg: 2.04, ion: 801, met: 40 },
+      { num: 6, sym: "C", name: "Carbon", cat: "Reactive Nonmetal", mass: 12.011, valency: "4", row: 2, col: 14, block: "p", radius: 67, eneg: 2.55, ion: 1086, met: 20 },
+      { num: 7, sym: "N", name: "Nitrogen", cat: "Reactive Nonmetal", mass: 14.007, valency: "3-", row: 2, col: 15, block: "p", radius: 56, eneg: 3.04, ion: 1402, met: 15 },
+      { num: 8, sym: "O", name: "Oxygen", cat: "Reactive Nonmetal", mass: 15.999, valency: "2-", row: 2, col: 16, block: "p", radius: 48, eneg: 3.44, ion: 1314, met: 10 },
+      { num: 9, sym: "F", name: "Fluorine", cat: "Reactive Nonmetal", mass: 18.998, valency: "1-", row: 2, col: 17, block: "p", radius: 42, eneg: 3.98, ion: 1681, met: 5 },
+      { num: 10, sym: "Ne", name: "Neon", cat: "Noble Gas", mass: 20.180, valency: "0", row: 2, col: 18, block: "p", radius: 38, eneg: 0, ion: 2081, met: 0 },
+      { num: 11, sym: "Na", name: "Sodium", cat: "Alkali Metal", mass: 22.990, valency: "1+", row: 3, col: 1, block: "s", radius: 190, eneg: 0.93, ion: 496, met: 92 },
+      { num: 12, sym: "Mg", name: "Magnesium", cat: "Alkaline Earth", mass: 24.305, valency: "2+", row: 3, col: 2, block: "s", radius: 145, eneg: 1.31, ion: 738, met: 80 },
+      { num: 13, sym: "Al", name: "Aluminium", cat: "Post-Transition", mass: 26.982, valency: "3+", row: 3, col: 13, block: "p", radius: 118, eneg: 1.61, ion: 578, met: 70 },
+      { num: 14, sym: "Si", name: "Silicon", cat: "Metalloid", mass: 28.085, valency: "4", row: 3, col: 14, block: "p", radius: 111, eneg: 1.90, ion: 786, met: 45 },
+      { num: 15, sym: "P", name: "Phosphorus", cat: "Reactive Nonmetal", mass: 30.974, valency: "3-", row: 3, col: 15, block: "p", radius: 98, eneg: 2.19, ion: 1012, met: 25 },
+      { num: 16, sym: "S", name: "Sulfur", cat: "Reactive Nonmetal", mass: 32.06, valency: "2-", row: 3, col: 16, block: "p", radius: 88, eneg: 2.58, ion: 1000, met: 15 },
+      { num: 17, sym: "Cl", name: "Chlorine", cat: "Reactive Nonmetal", mass: 35.45, valency: "1-", row: 3, col: 17, block: "p", radius: 79, eneg: 3.16, ion: 1251, met: 10 },
+      { num: 18, sym: "Ar", name: "Argon", cat: "Noble Gas", mass: 39.948, valency: "0", row: 3, col: 18, block: "p", radius: 71, eneg: 0, ion: 1521, met: 0 },
+      { num: 19, sym: "K", name: "Potassium", cat: "Alkali Metal", mass: 39.098, valency: "1+", row: 4, col: 1, block: "s", radius: 243, eneg: 0.82, ion: 419, met: 95 },
+      { num: 20, sym: "Ca", name: "Calcium", cat: "Alkaline Earth", mass: 40.078, valency: "2+", row: 4, col: 2, block: "s", radius: 194, eneg: 1.00, ion: 590, met: 85 },
+      { num: 21, sym: "Sc", name: "Scandium", cat: "Transition Metal", mass: 44.956, valency: "3+", row: 4, col: 3, block: "d", radius: 184, eneg: 1.36, ion: 633, met: 75 },
+      { num: 22, sym: "Ti", name: "Titanium", cat: "Transition Metal", mass: 47.867, valency: "4+", row: 4, col: 4, block: "d", radius: 176, eneg: 1.54, ion: 658, met: 75 },
+      { num: 23, sym: "V", name: "Vanadium", cat: "Transition Metal", mass: 50.942, valency: "5+", row: 4, col: 5, block: "d", radius: 171, eneg: 1.63, ion: 650, met: 75 },
+      { num: 24, sym: "Cr", name: "Chromium", cat: "Transition Metal", mass: 51.996, valency: "3+,6+", row: 4, col: 6, block: "d", radius: 166, eneg: 1.66, ion: 653, met: 75 },
+      { num: 25, sym: "Mn", name: "Manganese", cat: "Transition Metal", mass: 54.938, valency: "2+,4+,7+", row: 4, col: 7, block: "d", radius: 161, eneg: 1.55, ion: 717, met: 75 },
+      { num: 26, sym: "Fe", name: "Iron", cat: "Transition Metal", mass: 55.845, valency: "2+,3+", row: 4, col: 8, block: "d", radius: 156, eneg: 1.83, ion: 762, met: 78 },
+      { num: 27, sym: "Co", name: "Cobalt", cat: "Transition Metal", mass: 58.933, valency: "2+,3+", row: 4, col: 9, block: "d", radius: 152, eneg: 1.88, ion: 760, met: 78 },
+      { num: 28, sym: "Ni", name: "Nickel", cat: "Transition Metal", mass: 58.693, valency: "2+", row: 4, col: 10, block: "d", radius: 149, eneg: 1.91, ion: 737, met: 78 },
+      { num: 29, sym: "Cu", name: "Copper", cat: "Transition Metal", mass: 63.546, valency: "1+,2+", row: 4, col: 11, block: "d", radius: 145, eneg: 1.90, ion: 745, met: 80 },
+      { num: 30, sym: "Zn", name: "Zinc", cat: "Transition Metal", mass: 65.38, valency: "2+", row: 4, col: 12, block: "d", radius: 142, eneg: 1.65, ion: 906, met: 75 },
+      { num: 31, sym: "Ga", name: "Gallium", cat: "Post-Transition", mass: 69.723, valency: "3+", row: 4, col: 13, block: "p", radius: 136, eneg: 1.81, ion: 579, met: 68 },
+      { num: 32, sym: "Ge", name: "Germanium", cat: "Metalloid", mass: 72.630, valency: "4+", row: 4, col: 14, block: "p", radius: 125, eneg: 2.01, ion: 762, met: 50 },
+      { num: 33, sym: "As", name: "Arsenic", cat: "Metalloid", mass: 74.922, valency: "3-", row: 4, col: 15, block: "p", radius: 114, eneg: 2.18, ion: 947, met: 40 },
+      { num: 34, sym: "Se", name: "Selenium", cat: "Reactive Nonmetal", mass: 78.971, valency: "2-", row: 4, col: 16, block: "p", radius: 103, eneg: 2.55, ion: 941, met: 20 },
+      { num: 35, sym: "Br", name: "Bromine", cat: "Reactive Nonmetal", mass: 79.904, valency: "1-", row: 4, col: 17, block: "p", radius: 94, eneg: 2.96, ion: 1140, met: 10 },
+      { num: 36, sym: "Kr", name: "Krypton", cat: "Noble Gas", mass: 83.798, valency: "0", row: 4, col: 18, block: "p", radius: 88, eneg: 3.00, ion: 1351, met: 0 },
+      { num: 37, sym: "Rb", name: "Rubidium", cat: "Alkali Metal", mass: 85.468, valency: "1+", row: 5, col: 1, block: "s", radius: 265, eneg: 0.82, ion: 403, met: 96 },
+      { num: 38, sym: "Sr", name: "Strontium", cat: "Alkaline Earth", mass: 87.62, valency: "2+", row: 5, col: 2, block: "s", radius: 219, eneg: 0.95, ion: 549, met: 88 },
+      { num: 39, sym: "Y", name: "Yttrium", cat: "Transition Metal", mass: 88.906, valency: "3+", row: 5, col: 3, block: "d", radius: 212, eneg: 1.22, ion: 600, met: 78 },
+      { num: 40, sym: "Zr", name: "Zirconium", cat: "Transition Metal", mass: 91.224, valency: "4+", row: 5, col: 4, block: "d", radius: 206, eneg: 1.33, ion: 640, met: 78 },
+      { num: 41, sym: "Nb", name: "Niobium", cat: "Transition Metal", mass: 92.906, valency: "5+", row: 5, col: 5, block: "d", radius: 198, eneg: 1.6, ion: 652, met: 78 },
+      { num: 42, sym: "Mo", name: "Molybdenum", cat: "Transition Metal", mass: 95.95, valency: "6+", row: 5, col: 6, block: "d", radius: 190, eneg: 2.16, ion: 684, met: 78 },
+      { num: 43, sym: "Tc", name: "Technetium", cat: "Transition Metal", mass: 97, valency: "7+", row: 5, col: 7, block: "d", radius: 183, eneg: 1.9, ion: 702, met: 78 },
+      { num: 44, sym: "Ru", name: "Ruthenium", cat: "Transition Metal", mass: 101.07, valency: "3+", row: 5, col: 8, block: "d", radius: 178, eneg: 2.2, ion: 710, met: 78 },
+      { num: 45, sym: "Rh", name: "Rhodium", cat: "Transition Metal", mass: 102.91, valency: "3+", row: 5, col: 9, block: "d", radius: 173, eneg: 2.28, ion: 720, met: 78 },
+      { num: 46, sym: "Pd", name: "Palladium", cat: "Transition Metal", mass: 106.42, valency: "2+,4+", row: 5, col: 10, block: "d", radius: 169, eneg: 2.20, ion: 804, met: 78 },
+      { num: 47, sym: "Ag", name: "Silver", cat: "Transition Metal", mass: 107.87, valency: "1+", row: 5, col: 11, block: "d", radius: 165, eneg: 1.93, ion: 731, met: 85 },
+      { num: 48, sym: "Cd", name: "Cadmium", cat: "Transition Metal", mass: 112.41, valency: "2+", row: 5, col: 12, block: "d", radius: 161, eneg: 1.69, ion: 867, met: 75 },
+      { num: 49, sym: "In", name: "Indium", cat: "Post-Transition", mass: 114.82, valency: "3+", row: 5, col: 13, block: "p", radius: 156, eneg: 1.78, ion: 558, met: 70 },
+      { num: 50, sym: "Sn", name: "Tin", cat: "Post-Transition", mass: 118.71, valency: "2+,4+", row: 5, col: 14, block: "p", radius: 145, eneg: 1.96, ion: 708, met: 65 },
+      { num: 51, sym: "Sb", name: "Antimony", cat: "Metalloid", mass: 121.76, valency: "3+,5+", row: 5, col: 15, block: "p", radius: 133, eneg: 2.05, ion: 834, met: 50 },
+      { num: 52, sym: "Te", name: "Tellurium", cat: "Metalloid", mass: 127.60, valency: "2-", row: 5, col: 16, block: "p", radius: 123, eneg: 2.1, ion: 869, met: 40 },
+      { num: 53, sym: "I", name: "Iodine", cat: "Reactive Nonmetal", mass: 126.90, valency: "1-", row: 5, col: 17, block: "p", radius: 115, eneg: 2.66, ion: 1008, met: 15 },
+      { num: 54, sym: "Xe", name: "Xenon", cat: "Noble Gas", mass: 131.29, valency: "0", row: 5, col: 18, block: "p", radius: 108, eneg: 2.6, ion: 1170, met: 0 },
+      { num: 55, sym: "Cs", name: "Caesium", cat: "Alkali Metal", mass: 132.91, valency: "1+", row: 6, col: 1, block: "s", radius: 298, eneg: 0.79, ion: 376, met: 98 },
+      { num: 56, sym: "Ba", name: "Barium", cat: "Alkaline Earth", mass: 137.33, valency: "2+", row: 6, col: 2, block: "s", radius: 253, eneg: 0.89, ion: 503, met: 90 },
+      { num: 57, sym: "La", name: "Lanthanum", cat: "Lanthanide", mass: 138.91, valency: "3+", row: 8, col: 3, block: "f", radius: 226, eneg: 1.1, ion: 538, met: 80 },
+      { num: 58, sym: "Ce", name: "Cerium", cat: "Lanthanide", mass: 140.12, valency: "3+,4+", row: 8, col: 4, block: "f", radius: 210, eneg: 1.12, ion: 534, met: 80 },
+      { num: 59, sym: "Pr", name: "Praseodymium", cat: "Lanthanide", mass: 140.91, valency: "3+", row: 8, col: 5, block: "f", radius: 247, eneg: 1.13, ion: 527, met: 80 },
+      { num: 60, sym: "Nd", name: "Neodymium", cat: "Lanthanide", mass: 144.24, valency: "3+", row: 8, col: 6, block: "f", radius: 206, eneg: 1.14, ion: 533, met: 80 },
+      { num: 61, sym: "Pm", name: "Promethium", cat: "Lanthanide", mass: 145, valency: "3+", row: 8, col: 7, block: "f", radius: 205, eneg: 1.13, ion: 540, met: 80 },
+      { num: 62, sym: "Sm", name: "Samarium", cat: "Lanthanide", mass: 150.36, valency: "3+", row: 8, col: 8, block: "f", radius: 238, eneg: 1.17, ion: 545, met: 80 },
+      { num: 63, sym: "Eu", name: "Europium", cat: "Lanthanide", mass: 151.96, valency: "2+,3+", row: 8, col: 9, block: "f", radius: 231, eneg: 1.2, ion: 547, met: 80 },
+      { num: 64, sym: "Gd", name: "Gadolinium", cat: "Lanthanide", mass: 157.25, valency: "3+", row: 8, col: 10, block: "f", radius: 233, eneg: 1.2, ion: 593, met: 80 },
+      { num: 65, sym: "Tb", name: "Terbium", cat: "Lanthanide", mass: 158.93, valency: "3+", row: 8, col: 11, block: "f", radius: 225, eneg: 1.2, ion: 566, met: 80 },
+      { num: 66, sym: "Dy", name: "Dysprosium", cat: "Lanthanide", mass: 162.50, valency: "3+", row: 8, col: 12, block: "f", radius: 228, eneg: 1.22, ion: 573, met: 80 },
+      { num: 67, sym: "Ho", name: "Holmium", cat: "Lanthanide", mass: 164.93, valency: "3+", row: 8, col: 13, block: "f", radius: 226, eneg: 1.23, ion: 581, met: 80 },
+      { num: 68, sym: "Er", name: "Erbium", cat: "Lanthanide", mass: 167.26, valency: "3+", row: 8, col: 14, block: "f", radius: 226, eneg: 1.24, ion: 589, met: 80 },
+      { num: 69, sym: "Tm", name: "Thulium", cat: "Lanthanide", mass: 168.93, valency: "3+", row: 8, col: 15, block: "f", radius: 222, eneg: 1.25, ion: 597, met: 80 },
+      { num: 70, sym: "Yb", name: "Ytterbium", cat: "Lanthanide", mass: 173.05, valency: "2+,3+", row: 8, col: 16, block: "f", radius: 222, eneg: 1.1, ion: 603, met: 80 },
+      { num: 71, sym: "Lu", name: "Lutetium", cat: "Lanthanide", mass: 174.97, valency: "3+", row: 8, col: 17, block: "f", radius: 217, eneg: 1.27, ion: 524, met: 80 },
+      { num: 72, sym: "Hf", name: "Hafnium", cat: "Transition Metal", mass: 178.49, valency: "4+", row: 6, col: 4, block: "d", radius: 208, eneg: 1.3, ion: 658, met: 78 },
+      { num: 73, sym: "Ta", name: "Tantalum", cat: "Transition Metal", mass: 180.95, valency: "5+", row: 6, col: 5, block: "d", radius: 200, eneg: 1.5, ion: 761, met: 78 },
+      { num: 74, sym: "W", name: "Tungsten", cat: "Transition Metal", mass: 183.84, valency: "6+", row: 6, col: 6, block: "d", radius: 193, eneg: 2.36, ion: 770, met: 78 },
+      { num: 75, sym: "Re", name: "Rhenium", cat: "Transition Metal", mass: 186.21, valency: "7+", row: 6, col: 7, block: "d", radius: 188, eneg: 1.9, ion: 760, met: 78 },
+      { num: 76, sym: "Os", name: "Osmium", cat: "Transition Metal", mass: 190.23, valency: "4+,8+", row: 6, col: 8, block: "d", radius: 185, eneg: 2.2, ion: 840, met: 78 },
+      { num: 77, sym: "Ir", name: "Iridium", cat: "Transition Metal", mass: 192.22, valency: "4+", row: 6, col: 9, block: "d", radius: 180, eneg: 2.2, ion: 880, met: 78 },
+      { num: 78, sym: "Pt", name: "Platinum", cat: "Transition Metal", mass: 195.08, valency: "2+,4+", row: 6, col: 10, block: "d", radius: 177, eneg: 2.28, ion: 870, met: 80 },
+      { num: 79, sym: "Au", name: "Gold", cat: "Transition Metal", mass: 196.97, valency: "1+,3+", row: 6, col: 11, block: "d", radius: 174, eneg: 2.54, ion: 890, met: 85 },
+      { num: 80, sym: "Hg", name: "Mercury", cat: "Transition Metal", mass: 200.59, valency: "1+,2+", row: 6, col: 12, block: "d", radius: 171, eneg: 2.00, ion: 1007, met: 75 },
+      { num: 81, sym: "Tl", name: "Thallium", cat: "Post-Transition", mass: 204.38, valency: "1+,3+", row: 6, col: 13, block: "p", radius: 156, eneg: 1.62, ion: 589, met: 70 },
+      { num: 82, sym: "Pb", name: "Lead", cat: "Post-Transition", mass: 207.2, valency: "2+,4+", row: 6, col: 14, block: "p", radius: 154, eneg: 2.33, ion: 715, met: 68 },
+      { num: 83, sym: "Bi", name: "Bismuth", cat: "Post-Transition", mass: 208.98, valency: "3+,5+", row: 6, col: 15, block: "p", radius: 143, eneg: 2.02, ion: 703, met: 65 },
+      { num: 84, sym: "Po", name: "Polonium", cat: "Post-Transition", mass: 209, valency: "2+,4+", row: 6, col: 16, block: "p", radius: 135, eneg: 2.0, ion: 812, met: 50 },
+      { num: 85, sym: "At", name: "Astatine", cat: "Metalloid", mass: 210, valency: "1-", row: 6, col: 17, block: "p", radius: 127, eneg: 2.2, ion: 920, met: 30 },
+      { num: 86, sym: "Rn", name: "Radon", cat: "Noble Gas", mass: 222, valency: "0", row: 6, col: 18, block: "p", radius: 120, eneg: 0, ion: 1037, met: 0 },
+      { num: 87, sym: "Fr", name: "Francium", cat: "Alkali Metal", mass: 223, valency: "1+", row: 7, col: 1, block: "s", radius: 348, eneg: 0.7, ion: 380, met: 100 },
+      { num: 88, sym: "Ra", name: "Radium", cat: "Alkaline Earth", mass: 226, valency: "2+", row: 7, col: 2, block: "s", radius: 283, eneg: 0.9, ion: 509, met: 92 },
+      { num: 89, sym: "Ac", name: "Actinium", cat: "Actinide", mass: 227, valency: "3+", row: 9, col: 3, block: "f", radius: 260, eneg: 1.1, ion: 499, met: 80 },
+      { num: 90, sym: "Th", name: "Thorium", cat: "Actinide", mass: 232.04, valency: "4+", row: 9, col: 4, block: "f", radius: 237, eneg: 1.3, ion: 587, met: 80 },
+      { num: 91, sym: "Pa", name: "Protactinium", cat: "Actinide", mass: 231.04, valency: "5+", row: 9, col: 5, block: "f", radius: 243, eneg: 1.5, ion: 568, met: 80 },
+      { num: 92, sym: "U", name: "Uranium", cat: "Actinide", mass: 238.03, valency: "6+", row: 9, col: 6, block: "f", radius: 240, eneg: 1.38, ion: 597, met: 80 },
+      { num: 93, sym: "Np", name: "Neptunium", cat: "Actinide", mass: 237, valency: "5+", row: 9, col: 7, block: "f", radius: 221, eneg: 1.36, ion: 604, met: 80 },
+      { num: 94, sym: "Pu", name: "Plutonium", cat: "Actinide", mass: 244, valency: "4+", row: 9, col: 8, block: "f", radius: 243, eneg: 1.28, ion: 585, met: 80 },
+      { num: 95, sym: "Am", name: "Americium", cat: "Actinide", mass: 243, valency: "3+", row: 9, col: 9, block: "f", radius: 244, eneg: 1.3, ion: 578, met: 80 },
+      { num: 96, sym: "Cm", name: "Curium", cat: "Actinide", mass: 247, valency: "3+", row: 9, col: 10, block: "f", radius: 245, eneg: 1.3, ion: 581, met: 80 },
+      { num: 97, sym: "Bk", name: "Berkelium", cat: "Actinide", mass: 247, valency: "3+,4+", row: 9, col: 11, block: "f", radius: 244, eneg: 1.3, ion: 601, met: 80 },
+      { num: 98, sym: "Cf", name: "Californium", cat: "Actinide", mass: 251, valency: "3+", row: 9, col: 12, block: "f", radius: 245, eneg: 1.3, ion: 608, met: 80 },
+      { num: 99, sym: "Es", name: "Einsteinium", cat: "Actinide", mass: 252, valency: "3+", row: 9, col: 13, block: "f", radius: 245, eneg: 1.3, ion: 619, met: 80 },
+      { num: 100, sym: "Fm", name: "Fermium", cat: "Actinide", mass: 257, valency: "3+", row: 9, col: 14, block: "f", radius: 245, eneg: 1.3, ion: 627, met: 80 },
+      { num: 101, sym: "Md", name: "Mendelevium", cat: "Actinide", mass: 258, valency: "2+,3+", row: 9, col: 15, block: "f", radius: 246, eneg: 1.3, ion: 635, met: 80 },
+      { num: 102, sym: "No", name: "Nobelium", cat: "Actinide", mass: 259, valency: "2+,3+", row: 9, col: 16, block: "f", radius: 246, eneg: 1.3, ion: 642, met: 80 },
+      { num: 103, sym: "Lr", name: "Lawrencium", cat: "Actinide", mass: 266, valency: "3+", row: 9, col: 17, block: "f", radius: 246, eneg: 1.3, ion: 470, met: 80 },
+      { num: 104, sym: "Rf", name: "Rutherfordium", cat: "Transition Metal", mass: 267, valency: "4+", row: 7, col: 4, block: "d", radius: 150, eneg: 0, ion: 580, met: 75 },
+      { num: 105, sym: "Db", name: "Dubnium", cat: "Transition Metal", mass: 268, valency: "5+", row: 7, col: 5, block: "d", radius: 149, eneg: 0, ion: 590, met: 75 },
+      { num: 106, sym: "Sg", name: "Seaborgium", cat: "Transition Metal", mass: 269, valency: "6+", row: 7, col: 6, block: "d", radius: 143, eneg: 0, ion: 600, met: 75 },
+      { num: 107, sym: "Bh", name: "Bohrium", cat: "Transition Metal", mass: 270, valency: "7+", row: 7, col: 7, block: "d", radius: 141, eneg: 0, ion: 610, met: 75 },
+      { num: 108, sym: "Hs", name: "Hassium", cat: "Transition Metal", mass: 269, valency: "8+", row: 7, col: 8, block: "d", radius: 134, eneg: 0, ion: 620, met: 75 },
+      { num: 109, sym: "Mt", name: "Meitnerium", cat: "Transition Metal", mass: 278, valency: "3+", row: 7, col: 9, block: "d", radius: 129, eneg: 0, ion: 630, met: 75 },
+      { num: 110, sym: "Ds", name: "Darmstadtium", cat: "Transition Metal", mass: 281, valency: "2+", row: 7, col: 10, block: "d", radius: 128, eneg: 0, ion: 640, met: 75 },
+      { num: 111, sym: "Rg", name: "Roentgenium", cat: "Transition Metal", mass: 282, valency: "1+", row: 7, col: 11, block: "d", radius: 121, eneg: 0, ion: 650, met: 75 },
+      { num: 112, sym: "Cn", name: "Copernicium", cat: "Transition Metal", mass: 285, valency: "2+", row: 7, col: 12, block: "d", radius: 122, eneg: 0, ion: 660, met: 75 },
+      { num: 113, sym: "Nh", name: "Nihonium", cat: "Post-Transition", mass: 286, valency: "1+", row: 7, col: 13, block: "p", radius: 136, eneg: 0, ion: 670, met: 60 },
+      { num: 114, sym: "Fl", name: "Flerovium", cat: "Post-Transition", mass: 289, valency: "4+", row: 7, col: 14, block: "p", radius: 143, eneg: 0, ion: 680, met: 60 },
+      { num: 115, sym: "Mc", name: "Moscovium", cat: "Post-Transition", mass: 290, valency: "1+,3+", row: 7, col: 15, block: "p", radius: 162, eneg: 0, ion: 690, met: 60 },
+      { num: 116, sym: "Lv", name: "Livermorium", cat: "Post-Transition", mass: 293, valency: "2+,4+", row: 7, col: 16, block: "p", radius: 175, eneg: 0, ion: 700, met: 60 },
+      { num: 117, sym: "Ts", name: "Tennessine", cat: "Reactive Nonmetal", mass: 294, valency: "1-", row: 7, col: 17, block: "p", radius: 165, eneg: 0, ion: 710, met: 30 },
+      { num: 118, sym: "Og", name: "Oganesson", cat: "Noble Gas", mass: 294, valency: "0", row: 7, col: 18, block: "p", radius: 157, eneg: 0, ion: 720, met: 0 }
+    ];
+
+    const categoryColors = {
+      "Alkali Metal": "bg-rose-600 text-white border-rose-400",
+      "Alkaline Earth": "bg-pink-600 text-white border-pink-400",
+      "Transition Metal": "bg-amber-600 text-white border-amber-400",
+      "Post-Transition": "bg-blue-600 text-white border-blue-400",
+      "Metalloid": "bg-emerald-600 text-white border-emerald-400",
+      "Reactive Nonmetal": "bg-green-600 text-white border-green-400",
+      "Noble Gas": "bg-purple-600 text-white border-purple-400",
+      "Lanthanide": "bg-orange-600 text-white border-orange-400",
+      "Actinide": "bg-red-600 text-white border-red-400"
+    };
+
+    let selectedCategory = 'all';
+    let selectedBlock = 'all';
+    let currentTrend = 'radius';
+    let quizScore = 0;
+    let quizTotal = 0;
+    let currentQuizItem = null;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.add('text-slate-400');
+      });
+
+      document.getElementById(`view-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      activeBtn.classList.add('bg-indigo-600', 'text-white');
+      activeBtn.classList.remove('text-slate-400');
+
+      if (tabId === 'directory') renderDirectoryTable();
+      if (tabId === 'trends') renderTrendGrid();
+      if (tabId === 'quiz' && !currentQuizItem) loadQuizQuestion();
+    }
+
+    function renderPeriodicGrid() {
+      const mainGrid = document.getElementById('main-periodic-grid');
+      const lanthGrid = document.getElementById('lanthanide-grid');
+      const actGrid = document.getElementById('actinide-grid');
+
+      mainGrid.innerHTML = '';
+      lanthGrid.innerHTML = '';
+      actGrid.innerHTML = '';
+
+      // Grid maps for period 1-7
+      const gridMap = {};
+      elementsData.forEach(el => {
+        if (el.row <= 7) {
+          gridMap[`${el.row}-${el.col}`] = el;
+        }
+      });
+
+      for (let r = 1; r <= 7; r++) {
+        for (let c = 1; c <= 18; c++) {
+          if (r === 6 && c === 3) {
+            const placeholder = document.createElement('div');
+            placeholder.className = "h-14 rounded-lg bg-orange-950/40 border border-orange-500/40 flex flex-col items-center justify-center text-[10px] text-orange-300 font-bold p-1 text-center";
+            placeholder.innerHTML = "57-71<br>*";
+            mainGrid.appendChild(placeholder);
+            continue;
+          }
+          if (r === 7 && c === 3) {
+            const placeholder = document.createElement('div');
+            placeholder.className = "h-14 rounded-lg bg-red-950/40 border border-red-500/40 flex flex-col items-center justify-center text-[10px] text-red-300 font-bold p-1 text-center";
+            placeholder.innerHTML = "89-103<br>**";
+            mainGrid.appendChild(placeholder);
+            continue;
+          }
+
+          const el = gridMap[`${r}-${c}`];
+          if (el) {
+            mainGrid.appendChild(createCellElement(el));
+          } else {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = "h-14";
+            mainGrid.appendChild(emptyCell);
+          }
+        }
+      }
+
+      // Render Lanthanides & Actinides
+      elementsData.filter(e => e.row === 8).sort((a,b)=>a.num-b.num).forEach(el => lanthGrid.appendChild(createCellElement(el)));
+      elementsData.filter(e => e.row === 9).sort((a,b)=>a.num-b.num).forEach(el => actGrid.appendChild(createCellElement(el)));
+    }
+
+    function createCellElement(el) {
+      const card = document.createElement('div');
+      const colorClass = categoryColors[el.cat] || 'bg-slate-800 text-white';
+      
+      card.className = `element-card h-14 rounded-lg p-1 border ${colorClass} flex flex-col justify-between select-none shadow-sm relative overflow-hidden`;
+      card.id = `el-card-${el.num}`;
+      card.onclick = () => openModal(el);
+
+      card.innerHTML = `
+        <div class="flex justify-between items-center text-[9px] font-mono leading-none opacity-90">
+          <span>${el.num}</span>
+          <span class="text-[8px] font-sans opacity-75">${el.valency}</span>
+        </div>
+        <div class="text-center font-extrabold text-sm sm:text-base leading-tight tracking-tight">${el.sym}</div>
+        <div class="text-[8px] truncate text-center opacity-85 leading-none">${el.name}</div>
+      `;
+      return card;
+    }
+
+    function filterElements() {
+      const query = document.getElementById('ptable-search').value.toLowerCase().trim();
+
+      elementsData.forEach(el => {
+        const card = document.getElementById(`el-card-${el.num}`);
+        if (!card) return;
+
+        const matchesQuery = !query || 
+          el.name.toLowerCase().includes(query) || 
+          el.sym.toLowerCase().includes(query) || 
+          el.num.toString() === query;
+
+        const matchesCat = selectedCategory === 'all' || el.cat === selectedCategory;
+        const matchesBlock = selectedBlock === 'all' || el.block === selectedBlock;
+
+        if (matchesQuery && matchesCat && matchesBlock) {
+          card.style.opacity = "1";
+          card.style.transform = "scale(1)";
+          card.style.pointerEvents = "auto";
+        } else {
+          card.style.opacity = "0.15";
+          card.style.transform = "scale(0.95)";
+          card.style.pointerEvents = "none";
+        }
+      });
+    }
+
+    function setCategoryFilter(cat) {
+      selectedCategory = cat;
+      filterElements();
+    }
+
+    function setBlockFilter(b) {
+      selectedBlock = b;
+      filterElements();
+    }
+
+    function setTrendMode(trend) {
+      currentTrend = trend;
+      document.querySelectorAll('.trend-select-btn').forEach(b => {
+        b.classList.remove('border-indigo-500/50', 'bg-indigo-500/20', 'text-indigo-200');
+        b.classList.add('border-slate-800', 'bg-slate-950', 'text-slate-400');
+      });
+      const btn = document.getElementById(`btn-trend-${trend}`);
+      btn.classList.add('border-indigo-500/50', 'bg-indigo-500/20', 'text-indigo-200');
+      btn.classList.remove('border-slate-800', 'bg-slate-950', 'text-slate-400');
+      renderTrendGrid();
+    }
+
+    function renderTrendGrid() {
+      const trendGrid = document.getElementById('trend-periodic-grid');
+      const explanation = document.getElementById('trend-explanation');
+      trendGrid.innerHTML = '';
+
+      const explanations = {
+        radius: "<strong>Atomic Radius Trend:</strong> Increases moving <em>DOWN</em> a group (adding shell layers). Decreases moving <em>LEFT to RIGHT</em> (increasing nuclear proton pull).",
+        electronegativity: "<strong>Electronegativity Trend:</strong> Increases moving <em>UP and RIGHT</em>. <strong>Fluorine (F)</strong> is the highest. Noble gases are rated 0.",
+        ionization: "<strong>Ionization Energy Trend:</strong> Energy required to strip an electron. Increases moving <em>UP and RIGHT</em>. <strong>Helium (He)</strong> is the highest.",
+        metallic: "<strong>Metallic Character Trend:</strong> Increases moving <em>DOWN and LEFT</em> toward Francium (Fr)."
+      };
+      explanation.innerHTML = explanations[currentTrend];
+
+      let values = elementsData.map(e => e[currentTrend] || 0);
+      let maxVal = Math.max(...values);
+      let minVal = Math.min(...values.filter(v => v > 0));
+
+      const gridMap = {};
+      elementsData.forEach(el => {
+        if (el.row <= 7) gridMap[`${el.row}-${el.col}`] = el;
+      });
+
+      for (let r = 1; r <= 7; r++) {
+        for (let c = 1; c <= 18; c++) {
+          const el = gridMap[`${r}-${c}`];
+          if (el) {
+            const val = el[currentTrend] || 0;
+            const ratio = maxVal === minVal ? 0 : (val - minVal) / (maxVal - minVal);
+            const intensity = Math.max(0.1, Math.min(1, ratio));
+            
+            const card = document.createElement('div');
+            card.className = "h-12 rounded-lg p-1 border border-slate-800 flex flex-col justify-between items-center text-center select-none shadow-sm transition hover:scale-110 z-10";
+            card.style.backgroundColor = `rgba(225, 29, 72, ${intensity})`;
+            card.style.color = intensity > 0.5 ? '#ffffff' : '#94a3b8';
+            card.onclick = () => openModal(el);
+
+            card.innerHTML = `
+              <span class="text-[9px] font-mono">${el.num}</span>
+              <span class="font-extrabold text-sm">${el.sym}</span>
+              <span class="text-[8px] font-mono">${val}</span>
+            `;
+            trendGrid.appendChild(card);
+          } else {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = "h-12";
+            trendGrid.appendChild(emptyCell);
+          }
+        }
+      }
+    }
+
+    function renderDirectoryTable() {
+      const tbody = document.getElementById('directory-table-body');
+      const query = document.getElementById('directory-search').value.toLowerCase().trim();
+      tbody.innerHTML = '';
+
+      elementsData.filter(el => {
+        return !query || 
+          el.name.toLowerCase().includes(query) || 
+          el.sym.toLowerCase().includes(query) || 
+          el.cat.toLowerCase().includes(query) ||
+          el.num.toString() === query;
+      }).forEach(el => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/50 transition border-b border-slate-800/40 text-xs";
+        tr.innerHTML = `
+          <td class="p-3 font-mono font-bold text-slate-400">${el.num}</td>
+          <td class="p-3 font-extrabold text-indigo-400 text-sm">${el.sym}</td>
+          <td class="p-3 font-semibold text-white">${el.name}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 border border-slate-700 text-slate-300">${el.cat}</span></td>
+          <td class="p-3 font-mono">${el.mass}</td>
+          <td class="p-3 font-mono text-purple-300">${el.valency}</td>
+          <td class="p-3 text-right">
+            <button onclick='openModal(${JSON.stringify(el)})' class="px-2.5 py-1 bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white rounded-lg border border-indigo-500/30 transition text-[11px] font-medium">
+              View Specs
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openModal(el) {
+      const modal = document.getElementById('element-modal');
+      const content = document.getElementById('modal-content');
+      
+      content.innerHTML = `
+        <div class="flex items-center gap-4 border-b border-slate-800 pb-4">
+          <div class="w-16 h-16 rounded-2xl ${categoryColors[el.cat]} flex flex-col justify-between p-2 shadow-lg text-center">
+            <span class="text-[10px] font-mono leading-none">${el.num}</span>
+            <span class="text-2xl font-black leading-none">${el.sym}</span>
+            <span class="text-[9px] truncate leading-none">${el.mass}</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-black text-white">${el.name}</h3>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">${el.cat}</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Atomic Mass</span>
+            <span class="text-sm font-semibold text-white font-mono">${el.mass} amu</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Valency / Charge</span>
+            <span class="text-sm font-semibold text-purple-300 font-mono">${el.valency}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Electron Block</span>
+            <span class="text-sm font-semibold text-amber-300 font-mono">${el.block}-block</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Atomic Radius</span>
+            <span class="text-sm font-semibold text-cyan-300 font-mono">${el.radius} pm</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Electronegativity</span>
+            <span class="text-sm font-semibold text-pink-300 font-mono">${el.eneg}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">1st Ionization Energy</span>
+            <span class="text-sm font-semibold text-yellow-300 font-mono">${el.ion} kJ/mol</span>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('element-modal').classList.add('hidden');
+    }
+
+    function loadQuizQuestion() {
+      const qCard = document.getElementById('quiz-question');
+      const optsContainer = document.getElementById('quiz-options');
+      optsContainer.innerHTML = '';
+
+      const randomEl = elementsData[Math.floor(Math.random() * elementsData.length)];
+      currentQuizItem = randomEl;
+
+      const qTypes = [
+        { q: `What is the chemical symbol for ${randomEl.name}?`, correct: randomEl.sym, key: 'sym' },
+        { q: `Which category does ${randomEl.name} (${randomEl.sym}) belong to?`, correct: randomEl.cat, key: 'cat' },
+        { q: `What is the atomic number of ${randomEl.name}?`, correct: randomEl.num.toString(), key: 'num' }
+      ];
+
+      const selectedQ = qTypes[Math.floor(Math.random() * qTypes.length)];
+      qCard.textContent = selectedQ.q;
+
+      let options = [selectedQ.correct];
+      while (options.length < 4) {
+        const randChoice = elementsData[Math.floor(Math.random() * elementsData.length)];
+        let val = randChoice[selectedQ.key].toString();
+        if (!options.includes(val)) options.push(val);
+      }
+
+      options.sort(() => Math.random() - 0.5);
+
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-200 text-sm font-semibold hover:border-indigo-500 hover:bg-indigo-950/40 transition text-left";
+        btn.textContent = opt;
+        btn.onclick = () => checkQuizAnswer(opt, selectedQ.correct, btn);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(selected, correct, btn) {
+      quizTotal++;
+      if (selected === correct) {
+        quizScore++;
+        btn.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
+      } else {
+        btn.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
+      }
+      document.getElementById('quiz-score').textContent = `${quizScore} / ${quizTotal}`;
+      document.querySelectorAll('#quiz-options button').forEach(b => b.disabled = true);
+    }
+
+    function nextQuizQuestion() {
+      loadQuizQuestion();
+    }
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPeriodicGrid();
+    });
+  </script>
+</body>
+</html>
